@@ -26,11 +26,9 @@ func NewDBClient() *DBClient {
 		session: connectToMongoDB(),
 		ctx:     context.Background(),
 	}
-
 {{range $i, $v := .Collections}}
     cl.{{$v.Name}}Col = cl.session.Database(DB_NAME).Collection("{{$v.Name}}")
 {{end}}
-
 	return cl
 }
 
