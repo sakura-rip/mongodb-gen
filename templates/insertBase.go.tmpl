@@ -14,3 +14,18 @@ func (cl *DBClient) Insert{{.Name}}One({{.LowerName}} *{{.Name}}) (string, error
     }
     return "", nil
 }
+
+func (cl *DBClient) Insert{{.Name}}Many({{.LowerName}} []*{{Name}}) ([]string, error) {
+    result, err := cl.{{.Name}}Col.InsertMany(cl.ctx, {{.lowerName}})
+    if err != nil {
+        return nil, err
+    }
+    var strOids []string
+    if oids, ok := result.InsertedIDs.([]primitive.ObjectID); ok {
+        for _, oid := range oids {
+            strOids = append(strOids, oid)
+        }
+        return strOids, nil
+    }
+    return strOids, nil
+}
