@@ -9,6 +9,9 @@ type Collection struct {
 }
 
 type CollectionField struct {
-	Name     string
-	BsonName string
+	RootName  string
+	FieldName string
+	FieldType string
+	LowerName string
+	BsonName  string
 }
