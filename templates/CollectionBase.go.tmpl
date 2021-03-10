@@ -29,3 +29,23 @@ func (cl *DBClient) Insert{{.Name}}Many({{.LowerName}} []*{{Name}}) ([]string, e
     }
     return strOids, nil
 }
+
+func (cl *DBClient) Update{{.Name}}Attribute(id string, attrToUpdate bson.D) error {
+    _, err := cl.{{.Name}}Col.UpdateOne(cl.ctx, bson.M{"_id": id}, bson.M{"$set": attrToUpdate})
+    return err
+}
+
+func (cl *DBClient) Delete{{.Name}}Attribute(id string, attrToDelete bson.D) error {
+    _, err := cl.{{.Name}}Col.UpdateOne(cl.ctx, bson.M{"_id": id), bson.M{"$unset": attrToDelete)
+    return err
+}
+
+func (cl *DBClient) AddTo{{.Name}}Array(id string, object bson.M) error {
+    _, err := cl.{{.Name}}Col.UpdateOne(cl.Ctx, bson.M{"_id": mid}, bson.M{"$addToSet": object})
+    return err
+}
+
+func (cl *DBClient) RemoveFrom{{.Name}}Array(id string, object bson.M) error {
+    _, err := cl.{{.Name}}Col.UpdateOne(cl.Ctx, bson.M{"_id": mid}, bson.M{"$pull": targets})
+    return err
+}
