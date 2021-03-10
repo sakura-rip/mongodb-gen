@@ -1,0 +1,46 @@
+package template
+
+import (
+	"context"
+	"fmt"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"time"
+)
+
+const (
+    DB_NAME = "{{.databaseName}}"
+)
+
+
+type DBClient struct {
+	session  *mongo.Client
+	ctx      context.Context
+{{range $i, $v := .Collections}}
+	{{$v.CollectionName}}Col  *mongo.Collection
+{{end}}
+}
+
+func NewDBClient() *DBClient {
+	cl := &DBClient{
+		session: connectToMongoDB(),
+		ctx:     context.Background(),
+	}
+
+{{range $i, $v := .Collections}}
+    cl.{{$v.CollectionName}}Col = cl.session.Database(DB_NAME).Collection("{{$v.CollectionName}}")
+{{end}}
+
+	return cl
+}
+
+// connectToMongoDB connect to mongo
+func connectToMongoDB() *mongo.Client {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	db, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	if err != nil {
+		panic(fmt.Errorf("error on init mongo db: %v", err))
+	}
+	return db
+}
