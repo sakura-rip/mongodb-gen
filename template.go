@@ -8,7 +8,7 @@ import (
 	"syscall"
 )
 
-func CreateTemplateFile(path, tmpPath string, data interface{}, funcMap template.FuncMap) error {
+func createTemplateFile(path, tmpPath string, data interface{}, funcMap template.FuncMap) error {
 	if isFileExist(path) {
 		err := os.Remove(path)
 		if err != nil {
