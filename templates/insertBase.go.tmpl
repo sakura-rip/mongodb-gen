@@ -1,0 +1,16 @@
+package {{.PackageName}}
+
+import (
+    "go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+func (cl *DBClient) Insert{{.Name}}One({{.LowerName}}, *{{.Name}}) (string, error) {
+    result, err := cl.{{.Name}}Col.InsertOne(cl.ctx, {{.LowerName}})
+    if err != nil {
+        return "", err
+    }
+    if oid, ok := result.InsertedID.(primitive.ObjectID); ok {
+        return oid.String(), nil
+    }
+    return "", nil
+}
