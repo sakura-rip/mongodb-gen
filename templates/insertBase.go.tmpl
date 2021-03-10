@@ -10,7 +10,7 @@ func (cl *DBClient) Insert{{.Name}}One({{.LowerName}} *{{.Name}}) (string, error
         return "", err
     }
     if oid, ok := result.InsertedID.(primitive.ObjectID); ok {
-        return oid.String(), nil
+        return oid.Hex(), nil
     }
     return "", nil
 }
@@ -23,7 +23,7 @@ func (cl *DBClient) Insert{{.Name}}Many({{.LowerName}} []*{{Name}}) ([]string, e
     var strOids []string
     if oids, ok := result.InsertedIDs.([]primitive.ObjectID); ok {
         for _, oid := range oids {
-            strOids = append(strOids, oid)
+            strOids = append(strOids, oid.Hex())
         }
         return strOids, nil
     }
