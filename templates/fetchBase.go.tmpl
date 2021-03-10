@@ -3,8 +3,6 @@ package {{.PackageName}}
 import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 func (cl *DBClient) Fetch{{.Name}}(id string) ({{.Name}}, error) {
@@ -13,8 +11,8 @@ func (cl *DBClient) Fetch{{.Name}}(id string) ({{.Name}}, error) {
 		bson.D{{"_id", id}},
 	)
 	var {{.LowerName}} *{{.Name}}
-	if res.Decode(&{{.LowerName}}) != nil {
-		return {{.LowerName}}, status.Error(codes.NotFound, "not found")
+	if err := res.Decode(&{{.LowerName}}); err != nil {
+		return {{.LowerName}}, err
 	}
 	return {{.LowerName}}, nil
 }
@@ -26,8 +24,8 @@ func (cl *DBClient) Fetch{{.Name}}Attribute(id string, attributes bson.D) (*{{.N
 		options.FindOne().SetProjection(attributes),
 	)
 	var {{.LowerName}} *{{Name}}
-	if res.Decode(&{{.LowerName}}) != nil {
-		return {{.LowerName}}, status.Error(codes.NotFound, "not found")
+	if err := res.Decode(&{{.LowerName}}); err != nil {
+		return {{.LowerName}}, err
 	}
 	return {{.LowerName}}. nil
 }
