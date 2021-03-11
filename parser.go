@@ -12,6 +12,10 @@ import (
 	"strings"
 )
 
+const (
+	supportExtension = ".go"
+)
+
 func findAllStructs(dirPath string) {
 	fileSet := token.NewFileSet()
 
@@ -20,13 +24,12 @@ func findAllStructs(dirPath string) {
 		log.Fatal("error occurred during opening dir: %w", err)
 	}
 	for _, d := range list {
-		if d.IsDir() || !strings.HasSuffix(d.Name(), ".go") {
+		if d.IsDir() || !strings.HasSuffix(d.Name(), supportExtension) {
 			continue
 		}
 		filename := filepath.Join(dirPath, d.Name())
 		if file, err := parser.ParseFile(fileSet, filename, nil, parser.AllErrors); err == nil {
-			// dir/huge.goのhugeを抽出
-			baseFname := filepath.Base(filename)[:len(filepath.Base(filename))-len(filepath.Ext(filename))]
+			baseFname := strings.TrimSuffix(d.Name(), supportExtension)
 
 			//ファイル名と同じ、Collection名となる構造体を取得する
 			if val, ok := file.Scope.Objects[strcase.ToCamel(baseFname)]; ok == false {
