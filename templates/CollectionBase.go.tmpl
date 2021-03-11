@@ -5,6 +5,8 @@ package {{.PackageName}}
 
 import (
     "go.mongodb.org/mongo-driver/bson/primitive"
+    "go.mongodb.org/mongo-driver/bson"
+    "go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func (cl *DBClient) Insert{{.Name}}One({{.LowerName}} *{{.Name}}) (string, error) {
@@ -51,4 +53,37 @@ func (cl *DBClient) AddTo{{.Name}}Array(id string, object bson.M) error {
 func (cl *DBClient) RemoveFrom{{.Name}}Array(id string, object bson.M) error {
     _, err := cl.{{.Name}}Col.UpdateOne(cl.Ctx, bson.M{"_id": id}, bson.M{"$pull": targets})
     return err
+}
+
+func (cl *DBClient) Fetch{{.Name}}(id string) ({{.Name}}, error) {
+	res := cl.{{.Name}}Col.FindOne(
+		cl.ctx,
+		bson.D{{"_id", id}},
+	)
+	var {{.LowerName}} *{{.Name}}
+	if err := res.Decode(&{{.LowerName}}); err != nil {
+		return {{.LowerName}}, err
+	}
+	return {{.LowerName}}, nil
+}
+
+func (cl *DBClient) Fetch{{.Name}}Attribute(id string, attributes bson.D) (*{{.Name}}, error) {
+	res := cl.{{.Name}}Col.FindOne(
+		cl.ctx,
+		bson.D{{"_id", id}},
+		options.FindOne().SetProjection(attributes),
+	)
+	var {{.LowerName}} *{{Name}}
+	if err := res.Decode(&{{.LowerName}}); err != nil {
+		return {{.LowerName}}, err
+	}
+	return {{.LowerName}}. nil
+}
+
+func (cl *DBClient) Fetch{{.Name}}Attributes(id string, attributes ...string) (*{{.Name}}, error) {
+	var projections = bson.D{}
+	for _, attribute := range attributes {
+		projections = append(projections, bson.E{Key: attribute, Value: 1})
+	}
+	return cl.Fetch{{.Name}}Attribute(id, projections)
 }
