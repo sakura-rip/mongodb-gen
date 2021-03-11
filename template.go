@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"golang.org/x/xerrors"
 	"html/template"
+	"io"
 	"io/ioutil"
 	"os"
 	"syscall"
@@ -26,18 +28,33 @@ func createTemplateFile(path, tmpPath string, data interface{}, funcMap template
 	if err != nil {
 		return xerrors.Errorf("error occurred during reading file:%w", err)
 	}
-	tmp := template.Must(template.New("mongo-db-gen").Funcs(funcMap).Parse(string(txt)))
+
 	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY, 0664)
 	if err != nil {
 		return xerrors.Errorf("error occurred during creating file:%w", err)
 	}
 	defer file.Close()
 
-	err = tmp.Execute(file, data)
+	return ExecuteTemplate(string(txt), file, data, funcMap)
+}
+
+func ExecuteTemplate(txt string, file io.Writer, data interface{}, funcMap template.FuncMap) error {
+	tmp := template.Must(template.New("mongo-db-gen").Funcs(funcMap).Parse(txt))
+
+	err := tmp.Execute(file, data)
 	if err != nil {
 		return xerrors.Errorf("error occurred during executing template:%w", err)
 	}
 	return nil
+}
+
+func ExecuteTemplateInStr(txt string, data interface{}, funcMap template.FuncMap) (string, error) {
+	var doc bytes.Buffer
+	err := ExecuteTemplate(txt, &doc, data, funcMap)
+	if err != nil {
+		return "", err
+	}
+	return doc.String(), nil
 }
 
 func isFileExist(path string) bool {
