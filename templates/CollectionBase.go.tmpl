@@ -67,6 +67,15 @@ func (cl *DBClient) Fetch{{.Name}}(id string) ({{.Name}}, error) {
 	return {{.LowerName}}, nil
 }
 
+func (cl *DBClient) FetchAll{{.Name}}() ([]{{.Name}}, error) {
+    res, _ := cl.{{.Name}}Col.Find(cl.ctx, bson.M{})
+    var {{.LowerName}}s []{{.Name}}
+    if err := res.All(cl.ctx, &{{.LowerName}}s); err != nil {
+        return {{.LowerName}}s, err
+    }
+    return {{.LowerName}}s, nil
+}
+
 func (cl *DBClient) Fetch{{.Name}}Attribute(id string, attributes bson.D) (*{{.Name}}, error) {
 	res := cl.{{.Name}}Col.FindOne(
 		cl.ctx,
