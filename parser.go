@@ -2,42 +2,46 @@ package main
 
 import (
 	"github.com/fatih/structtag"
+	"github.com/iancoleman/strcase"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"log"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
 func findAllStructs(path string) {
 	fileSet := token.NewFileSet()
-	packages, err := parser.ParseDir(fileSet, path, nil, parser.AllErrors)
-	if err != nil {
-		log.Fatal("err on parse package: ", err)
-	}
-	var collections []Collection
-	for _, pkg := range packages {
-		collection := NewCollection()
-		var rootName string
-		for fName, file := range pkg.Files {
-			//Field
-			for _, obj := range file.Scope.Objects {
-				if !isStruct(obj) {
-					continue
-				}
-				field := NewCollectionField()
-				field.RootName = ""
-				field.FieldName = ""
-				field.FieldType = ""
-				field.LowerName = ""
-				field.BsonName = ""
 
+	list, err := os.ReadDir(path)
+	if err != nil {
+		log.Fatal("error occurred during opening dir: %w", err)
+	}
+	for _, d := range list {
+		if d.IsDir() || !strings.HasSuffix(d.Name(), ".go") {
+			continue
+		}
+		filename := filepath.Join(path, d.Name())
+		if file, err := parser.ParseFile(fileSet, filename, nil, parser.AllErrors); err == nil {
+			// dir/huge.goのhugeを抽出
+			baseFname := filepath.Base(filename)[:len(filepath.Base(filename))-len(filepath.Ext(filename))]
+
+			//ファイル名と同じ、Collection名となる構造体を取得する
+			if val, ok := file.Scope.Objects[strcase.ToCamel(baseFname)]; ok == false {
+				log.Fatal("A structure with the same name as the file name is required.\n"+
+					"The structure should contain a field with the tag `bson:\"_id\"`.\n"+
+					"Required structure name:", strcase.ToCamel(baseFname))
+			} else {
+				if !isStruct(val) {
+					log.Fatal(strcase.ToCamel(baseFname), " must be a structure.")
+				}
+				if getStructNameHaveID(val) == "" {
+					log.Fatal("Structure: ", strcase.ToCamel(baseFname), " must have a field with tag `bson:\"_id\"`")
+				}
 			}
-			collection.FileName = fName
-			collection.PackageName = pkg.Name
-			collection.Name = rootName
-			collection.LowerName = strings.ToLower(rootName)
-			collections = append(collections, collection)
+
 		}
 	}
 }
