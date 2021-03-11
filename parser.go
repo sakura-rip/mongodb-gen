@@ -6,6 +6,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"golang.org/x/xerrors"
 	"log"
 	"os"
 	"path/filepath"
@@ -31,21 +32,28 @@ func findAllStructs(dirPath string) {
 		if file, err := parser.ParseFile(fileSet, filename, nil, parser.AllErrors); err == nil {
 			baseFname := strings.TrimSuffix(d.Name(), supportExtension)
 
-			//ファイル名と同じ、Collection名となる構造体を取得する
-			if val, ok := file.Scope.Objects[strcase.ToCamel(baseFname)]; ok == false {
-				log.Fatal("A structure with the same name as the file name is required.\n"+
-					"The structure should contain a field with the tag `bson:\"_id\"`.\n"+
-					"Required structure name:", strcase.ToCamel(baseFname))
-			} else {
-				if !isStruct(val) {
-					log.Fatal(strcase.ToCamel(baseFname), " must be a structure.")
-				}
-				if getStructNameHaveID(val) == "" {
-					log.Fatal("Structure: ", strcase.ToCamel(baseFname), " must have a field with tag `bson:\"_id\"`")
-				}
+			if err = isCollectionStructExist(file, strcase.ToCamel(baseFname)); err != nil {
+				log.Fatal(err)
 			}
 
 		}
+	}
+}
+
+//ファイル名と同じ、Collection名となる構造体を取得する
+func isCollectionStructExist(file *ast.File, structName string) error {
+	if obj, ok := file.Scope.Objects[structName]; ok == false {
+		return xerrors.Errorf("A structure with the same name as the file name is required.\n"+
+			"The structure should contain a field with the tag `bson:\"_id\"`.\n"+
+			"Required structure name:, %w", structName)
+	} else {
+		if !isStruct(obj) {
+			return xerrors.Errorf(structName, " must be a structure.")
+		}
+		if getStructNameHaveID(obj) == "" {
+			return xerrors.Errorf("Structure: ", structName, " must have a field with tag `bson:\"_id\"`")
+		}
+		return nil
 	}
 }
 
