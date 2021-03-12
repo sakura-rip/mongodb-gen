@@ -81,10 +81,10 @@ func isCollectionStructExist(file *ast.File, structName string) error {
 			"Required structure name:, %w", structName)
 	} else {
 		if !isStruct(obj) {
-			return xerrors.Errorf(structName, " must be a structure.")
+			return xerrors.Errorf("%w must be a structure.", structName)
 		}
 		if getStructNameHaveID(obj) == "" {
-			return xerrors.Errorf("Structure: ", structName, " must have a field with tag `bson:\"_id\"`")
+			return xerrors.Errorf("Structure: %w %w", structName, " must have a field with tag `bson:\"_id\"`")
 		}
 		return nil
 	}
