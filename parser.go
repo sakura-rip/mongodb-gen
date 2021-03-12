@@ -30,7 +30,11 @@ func getAllCollections(dirPath string) []Collection {
 			continue
 		}
 		fileName := filepath.Join(dirPath, d.Name())
-		if file, err := parser.ParseFile(fileSet, fileName, nil, parser.AllErrors); err == nil {
+		fileSrc, err := os.ReadFile(fileName)
+		if err != nil {
+			log.Fatal("error occurred during reading file: %w", err)
+		}
+		if file, err := parser.ParseFile(fileSet, "", fileSrc, parser.AllErrors); err == nil {
 			baseFname := strings.TrimSuffix(d.Name(), supportExtension)
 			colName := strcase.ToCamel(baseFname)
 
