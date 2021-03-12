@@ -3,7 +3,7 @@ package main
 type Collection struct {
 	//Structの名前
 	Name string
-	//strings.ToLower(Name)
+	//strcase.ToLowerCamel(Name)
 	LowerName string
 	//Structの各フィールドの情報
 	//map[Bson名]CollectionField
