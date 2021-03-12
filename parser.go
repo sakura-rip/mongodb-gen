@@ -6,6 +6,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"go/types"
 	"golang.org/x/xerrors"
 	"log"
 	"os"
@@ -59,7 +60,7 @@ func getAllCollections(dirPath string) []Collection {
 				colFil := CollectionField{
 					RootName:  colName,
 					FieldName: field.Names[0].Name,
-					FieldType: string(fileSrc)[field.Type.Pos()-1 : field.Type.End()-1],
+					FieldType: types.ExprString(field.Type),
 					LowerName: strcase.ToLowerCamel(fileName),
 					BsonName:  bsonTag.Name,
 				}
