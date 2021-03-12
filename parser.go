@@ -24,18 +24,27 @@ func findAllStructs(dirPath string) {
 	if err != nil {
 		log.Fatal("error occurred during opening dir: %w", err)
 	}
+	var cols []Collection
 	for _, d := range list {
 		if d.IsDir() || !strings.HasSuffix(d.Name(), supportExtension) {
 			continue
 		}
-		filename := filepath.Join(dirPath, d.Name())
-		if file, err := parser.ParseFile(fileSet, filename, nil, parser.AllErrors); err == nil {
+		fileName := filepath.Join(dirPath, d.Name())
+		if file, err := parser.ParseFile(fileSet, fileName, nil, parser.AllErrors); err == nil {
 			baseFname := strings.TrimSuffix(d.Name(), supportExtension)
+			colName := strcase.ToCamel(baseFname)
 
-			if err = isCollectionStructExist(file, strcase.ToCamel(baseFname)); err != nil {
+			if err = isCollectionStructExist(file, colName); err != nil {
 				log.Fatal(err)
 			}
-
+			col := Collection{
+				Name:        colName,
+				LowerName:   strcase.ToLowerCamel(colName),
+				Fields:      map[string]CollectionField{},
+				PackageName: file.Name.Name,
+				FileName:    fileName,
+			}
+			cols = append(cols, col)
 		}
 	}
 }
