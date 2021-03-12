@@ -1,18 +1,21 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 )
 
 var (
-	GenDirName string
+	targetDirName string
 )
 
 func main() {
 	if len(os.Args) < 0 {
 		log.Fatal("target dir required")
 	}
-	GenDirName = os.Args[len(os.Args)-1]
+	targetDirName = os.Args[len(os.Args)-1]
 
+	cols := getAllCollections(targetDirName)
+	fmt.Printf("%#v", cols)
 }
