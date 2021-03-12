@@ -17,7 +17,7 @@ const (
 	supportExtension = ".go"
 )
 
-func findAllStructs(dirPath string) {
+func getAllCollections(dirPath string) []Collection {
 	fileSet := token.NewFileSet()
 
 	list, err := os.ReadDir(dirPath)
