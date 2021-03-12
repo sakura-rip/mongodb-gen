@@ -48,9 +48,27 @@ func getAllCollections(dirPath string) []Collection {
 				PackageName: file.Name.Name,
 				FileName:    fileName,
 			}
+
+			for _, field := range file.Scope.Objects[colName].Decl.(*ast.TypeSpec).Type.(*ast.StructType).Fields.List {
+				if len(field.Names) != 1 {
+					continue
+				}
+				tags, _ := structtag.Parse(field.Tag.Value)
+				bsonTag, _ := tags.Get("bson")
+				colFil := CollectionField{
+					RootName:  colName,
+					FieldName: field.Names[0].Name,
+					FieldType: string(fileSrc)[field.Type.Pos()-1 : field.Type.End()-1],
+					LowerName: strcase.ToLowerCamel(fileName),
+					BsonName:  bsonTag.Name,
+				}
+				col.Fields[colFil.FieldName] = colFil
+			}
+
 			cols = append(cols, col)
 		}
 	}
+	return cols
 }
 
 //ファイル名と同じ、Collection名となる構造体の存在を確認する
