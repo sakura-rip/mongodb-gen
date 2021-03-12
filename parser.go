@@ -54,7 +54,7 @@ func getAllCollections(dirPath string) []Collection {
 					continue
 				}
 				//TODO: map, struct, arrayの対応を。
-				tags, _ := structtag.Parse(field.Tag.Value)
+				tags, _ := structtag.Parse(strings.Trim(field.Tag.Value, "`"))
 				bsonTag, _ := tags.Get("bson")
 				colFil := CollectionField{
 					RootName:  colName,
@@ -93,7 +93,10 @@ func getStructNameHaveID(obj *ast.Object) string {
 	objStruct := obj.Decl.(*ast.TypeSpec).Type.(*ast.StructType)
 	for _, field := range objStruct.Fields.List {
 		//fieldName := field.Names[0].Name
-		tags, _ := structtag.Parse(field.Tag.Value)
+		tags, err := structtag.Parse(strings.Trim(field.Tag.Value, "`"))
+		if err != nil {
+			log.Fatal("error occurred during parsing field tag:", err)
+		}
 		if val, _ := tags.Get("bson"); val.Name == "_id" {
 			return obj.Decl.(*ast.TypeSpec).Name.Name
 		}
