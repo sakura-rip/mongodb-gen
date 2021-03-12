@@ -61,7 +61,7 @@ func getAllCollections(dirPath string) []Collection {
 					RootName:  colName,
 					FieldName: field.Names[0].Name,
 					FieldType: types.ExprString(field.Type),
-					LowerName: strcase.ToLowerCamel(fileName),
+					LowerName: strcase.ToLowerCamel(field.Names[0].Name),
 					BsonName:  bsonTag.Name,
 				}
 				col.Fields[colFil.FieldName] = colFil
