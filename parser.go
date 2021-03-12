@@ -40,7 +40,7 @@ func findAllStructs(dirPath string) {
 	}
 }
 
-//ファイル名と同じ、Collection名となる構造体を取得する
+//ファイル名と同じ、Collection名となる構造体の存在を確認する
 func isCollectionStructExist(file *ast.File, structName string) error {
 	if obj, ok := file.Scope.Objects[structName]; ok == false {
 		return xerrors.Errorf("A structure with the same name as the file name is required.\n"+
