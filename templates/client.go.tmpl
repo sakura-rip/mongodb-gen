@@ -16,25 +16,23 @@ const (
     DB_NAME = "DB_NAME"
 )
 
-
-type DBClient struct {
+[[- range $i, $v := .Collections]]
+type [[$v.Name]]DaoClient struct {
 	session  *mongo.Client
 	ctx      context.Context
-[[- range $i, $v := .Collections]]
-	[[$v.Name]]Col  *mongo.Collection
-[[- end]]
+	Col      *mongo.Collection
 }
 
-func NewDBClient() *DBClient {
-	cl := &DBClient{
+func New[[$v.Name]]DaoClient *[[$v.Name]]DaoClient {
+	cl := &New[[$v.Name]]DaoClient{
 		session: connectToMongoDB(),
 		ctx:     context.Background(),
 	}
-[[- range $i, $v := .Collections]]
-    cl.[[$v.Name]]Col = cl.session.Database(DB_NAME).Collection("[[$v.Name]]")
-[[- end]]
+	cl.Col = cl.session.Database(DB_NAME).Collection("[[$v.Name]]")
 	return cl
 }
+[[- end]]
+
 
 // connectToMongoDB connect to mongo
 func connectToMongoDB() *mongo.Client {
