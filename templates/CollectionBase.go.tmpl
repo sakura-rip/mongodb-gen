@@ -25,14 +25,14 @@ func (cl *DBClient) Insert{{.Name}}Many({{.LowerName}} []*{{Name}}) ([]string, e
     if err != nil {
         return nil, err
     }
-    var strOids []string
-    if oids, ok := result.InsertedIDs.([]primitive.ObjectID); ok {
-        for _, oid := range oids {
-            strOids = append(strOids, oid.Hex())
+    var strIds []string
+    if ids, ok := result.InsertedIDs.([]primitive.ObjectID); ok {
+        for _, oid := range ids {
+            strIds = append(strIds, oid.Hex())
         }
-        return strOids, nil
+        return strIds, nil
     }
-    return strOids, nil
+    return strIds, nil
 }
 
 func (cl *DBClient) Update{{.Name}}Attribute(id string, attrToUpdate bson.D) error {
