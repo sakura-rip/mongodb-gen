@@ -43,7 +43,9 @@ func ExecuteTemplate(txt string, file io.Writer, data interface{}, funcMap templ
 		funcMap = make(map[string]interface{})
 		funcMap["version"] = getVersion
 	}
-	tmp := template.Must(template.New("mongo-db-gen").Funcs(funcMap).Parse(txt))
+	newTmp := template.New("mongo-db-gen")
+	newTmp.Delims("[[", "]]")
+	tmp := template.Must(newTmp.Funcs(funcMap).Parse(txt))
 	err := tmp.Execute(file, data)
 	if err != nil {
 		return xerrors.Errorf("error occurred during executing template:%w", err)
