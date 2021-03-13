@@ -8,6 +8,7 @@ import (
 
 var (
 	targetDirName string
+	Version       = "develop@v1"
 )
 
 func main() {
@@ -18,4 +19,8 @@ func main() {
 
 	cols := getAllCollections(targetDirName)
 	fmt.Printf("%#v", cols)
+}
+
+func getVersion() string {
+	return Version
 }
