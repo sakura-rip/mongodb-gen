@@ -8,8 +8,6 @@ type Collection struct {
 	//Structの各フィールドの情報
 	//map[Bson名]CollectionField
 	Fields map[string]CollectionField
-	//パッケージ名
-	PackageName string
 	//対象Structの存在するファイルの名前
 	FileName string
 }
