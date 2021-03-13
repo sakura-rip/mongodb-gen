@@ -23,8 +23,8 @@ type [[$v.Name]]DaoClient struct {
 	Col      *mongo.Collection
 }
 
-func New[[$v.Name]]DaoClient *[[$v.Name]]DaoClient {
-	cl := &New[[$v.Name]]DaoClient{
+func New[[$v.Name]]DaoClient() *[[$v.Name]]DaoClient {
+	cl := &[[$v.Name]]DaoClient{
 		session: connectToMongoDB(),
 		ctx:     context.Background(),
 	}
