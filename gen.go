@@ -9,3 +9,11 @@ func generateClientFile(packageName string, collections []Collection) error {
 		}, nil,
 	)
 }
+
+func generateCollectionBaseFile(col Collection) error {
+	return createTemplateFile(
+		targetDirName+"/"+col.Name+"Base.go",
+		"./templates/CollectionBase.go.tmpl",
+		col, nil,
+	)
+}
