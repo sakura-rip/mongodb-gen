@@ -9,3 +9,12 @@ func TestGenerateClientFile(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestGenerateCollectionBaseFile(t *testing.T) {
+	targetDirName = "."
+	cols := getAllCollections("sample")
+	err := generateCollectionBaseFile(cols[0])
+	if err != nil {
+		t.Error(err)
+	}
+}
