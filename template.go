@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"syscall"
 )
 
@@ -24,18 +25,18 @@ func createTemplateFile(path, tmpPath string, data interface{}, funcMap template
 
 	fp, err := os.Open(tmpPath)
 	if err != nil {
-		return xerrors.Errorf("error occurred during opening file:%w", err)
+		return xerrors.Errorf("error occurred during opening file: %w", err)
 	}
 	defer fp.Close()
 
 	txt, err := ioutil.ReadAll(fp)
 	if err != nil {
-		return xerrors.Errorf("error occurred during reading file:%w", err)
+		return xerrors.Errorf("error occurred during reading file: %w", err)
 	}
 
 	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY, 0664)
 	if err != nil {
-		return xerrors.Errorf("error occurred during creating file:%w", err)
+		return xerrors.Errorf("error occurred during creating file: %w", err)
 	}
 	defer file.Close()
 
@@ -52,7 +53,7 @@ func ExecuteTemplate(txt string, file io.Writer, data interface{}, funcMap templ
 	tmp := template.Must(newTmp.Funcs(funcMap).Parse(txt))
 	err := tmp.Execute(file, data)
 	if err != nil {
-		return xerrors.Errorf("error occurred during executing template:%w", err)
+		return xerrors.Errorf("error occurred during executing template: %w", err)
 	}
 	return nil
 }
