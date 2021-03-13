@@ -21,7 +21,7 @@ func (cl *DBClient) Insert{{.Name}}One({{.LowerName}} *{{.Name}}) (string, error
     return "", nil
 }
 
-func (cl *DBClient) Insert{{.Name}}Many({{.LowerName}} []*{{Name}}) ([]string, error) {
+func (cl *DBClient) Insert{{.Name}}Many({{.LowerName}} []*{{.Name}}) ([]string, error) {
     result, err := cl.{{.Name}}Col.InsertMany(cl.ctx, {{.lowerName}})
     if err != nil {
         return nil, err
@@ -83,7 +83,7 @@ func (cl *DBClient) Fetch{{.Name}}Attribute(id string, attributes bson.D) (*{{.N
 		bson.D{{"_id", id}},
 		options.FindOne().SetProjection(attributes),
 	)
-	var {{.LowerName}} *{{Name}}
+	var {{.LowerName}} *{{.Name}}
 	if err := res.Decode(&{{.LowerName}}); err != nil {
 		return {{.LowerName}}, err
 	}
