@@ -11,6 +11,10 @@ import (
 )
 
 func createTemplateFile(path, tmpPath string, data interface{}, funcMap template.FuncMap) error {
+	err := os.MkdirAll(filepath.Dir(path), os.ModePerm)
+	if err != nil {
+		return xerrors.Errorf("error occurred during mkdirall: %w", err)
+	}
 	if isFileExist(path) {
 		err := os.Remove(path)
 		if err != nil {
