@@ -18,10 +18,10 @@ const (
 	supportExtension = ".go"
 )
 
-func getAllCollections(dirPath string) []Collection {
+func getAllCollections() []Collection {
 	fileSet := token.NewFileSet()
 
-	list, err := os.ReadDir(dirPath)
+	list, err := os.ReadDir(targetDirName)
 	if err != nil {
 		log.Fatal("error occurred during opening dir: %w", err)
 	}
@@ -30,7 +30,7 @@ func getAllCollections(dirPath string) []Collection {
 		if d.IsDir() || !strings.HasSuffix(d.Name(), supportExtension) {
 			continue
 		}
-		fileName := filepath.Join(dirPath, d.Name())
+		fileName := filepath.Join(targetDirName, d.Name())
 		fileSrc, err := os.ReadFile(fileName)
 		if err != nil {
 			log.Fatal("error occurred during reading file: %w", err)
