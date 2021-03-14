@@ -10,6 +10,16 @@ import (
     "go.mongodb.org/mongo-driver/mongo/options"
 )
 
+func (cl *[[.Name]]DaoClient) DeleteOne(id string) (int, error) {
+    result, err := cl.Col.DeleteOne(cl.ctx, bson.M{"_id": id})
+    return result.DeletedCount, err
+}
+
+func (cl *[[.Name]]DaoClient) DeleteMany(attr, bson.M) (int, error) {
+    result, err := cl.Col.DeleteMany(cl.ctx, attr)
+    return result.DeletedCount, err
+}
+
 func (cl *[[.Name]]DaoClient) InsertOne([[.LowerName]] *[[.PackageName]].[[.Name]]) (string, error) {
     result, err := cl.Col.InsertOne(cl.ctx, [[.LowerName]])
     if err != nil {
