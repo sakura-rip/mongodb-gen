@@ -58,11 +58,12 @@ func getAllCollections() []Collection {
 				tags, _ := structtag.Parse(strings.Trim(field.Tag.Value, "`"))
 				bsonTag, _ := tags.Get("bson")
 				colFil := CollectionField{
-					RootName:  colName,
-					FieldName: field.Names[0].Name,
-					FieldType: types.ExprString(field.Type),
-					LowerName: strcase.ToLowerCamel(field.Names[0].Name),
-					BsonName:  bsonTag.Name,
+					RootName:    colName,
+					FieldName:   field.Names[0].Name,
+					FieldType:   types.ExprString(field.Type),
+					LowerName:   strcase.ToLowerCamel(field.Names[0].Name),
+					BsonName:    bsonTag.Name,
+					PackageName: col.PackageName,
 				}
 				col.Fields[colFil.FieldName] = colFil
 			}
