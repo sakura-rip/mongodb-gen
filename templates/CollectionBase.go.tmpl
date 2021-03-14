@@ -12,11 +12,17 @@ import (
 
 func (cl *[[.Name]]DaoClient) DeleteOne(id string) (int, error) {
     result, err := cl.Col.DeleteOne(cl.ctx, bson.M{"_id": id})
+    if err != nil {
+        return 0, err
+    }
     return result.DeletedCount, err
 }
 
 func (cl *[[.Name]]DaoClient) DeleteMany(attr, bson.M) (int, error) {
     result, err := cl.Col.DeleteMany(cl.ctx, attr)
+    if err != nil {
+        return 0, err
+    }
     return result.DeletedCount, err
 }
 
