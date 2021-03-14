@@ -99,7 +99,7 @@ func (cl *[[.Name]]DaoClient) Get[[.Name]](id string) ([[.PackageName]].[[.Name]
 	return [[.LowerName]], nil
 }
 
-func (cl *[[.Name]]DaoClient) FetchAll() ([][[.PackageName]].[[.Name]], error) {
+func (cl *[[.Name]]DaoClient) GetAll() ([][[.PackageName]].[[.Name]], error) {
     res, _ := cl.Col.Find(cl.ctx, bson.M{})
     var [[.LowerName]]s [][[.PackageName]].[[.Name]]
     if err := res.All(cl.ctx, &[[.LowerName]]s); err != nil {
@@ -108,7 +108,7 @@ func (cl *[[.Name]]DaoClient) FetchAll() ([][[.PackageName]].[[.Name]], error) {
     return [[.LowerName]]s, nil
 }
 
-func (cl *[[.Name]]DaoClient) FetchAttribute(id string, attributes bson.D) ([[.PackageName]].[[.Name]], error) {
+func (cl *[[.Name]]DaoClient) GetAttribute(id string, attributes bson.D) ([[.PackageName]].[[.Name]], error) {
 	res := cl.Col.FindOne(
 		cl.ctx,
 		bson.D{{"_id", id}},
@@ -121,10 +121,10 @@ func (cl *[[.Name]]DaoClient) FetchAttribute(id string, attributes bson.D) ([[.P
 	return [[.LowerName]], nil
 }
 
-func (cl *[[.Name]]DaoClient) FetchAttributes(id string, attributes ...string) ([[.PackageName]].[[.Name]], error) {
+func (cl *[[.Name]]DaoClient) GetAttributes(id string, attributes ...string) ([[.PackageName]].[[.Name]], error) {
 	var projections = bson.D{}
 	for _, attribute := range attributes {
 		projections = append(projections, bson.E{Key: attribute, Value: 1})
 	}
-	return cl.FetchAttribute(id, projections)
+	return cl.GetAttribute(id, projections)
 }
