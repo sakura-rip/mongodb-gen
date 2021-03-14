@@ -10,6 +10,9 @@ type Collection struct {
 	Fields map[string]CollectionField
 	//対象Structの存在するファイルの名前
 	FileName string
+
+	GoModPackageName string
+	PackageName      string
 }
 
 func NewCollection() Collection {
