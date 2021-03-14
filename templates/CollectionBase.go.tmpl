@@ -49,9 +49,13 @@ func (cl *[[.Name]]DaoClient) UpdateAttribute(id string, attrToUpdate bson.D) er
     return err
 }
 
-func (cl *[[.Name]]DaoClient) DeleteAttribute(id string, attrToDelete bson.D) error {
-    _, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, bson.M{"$unset": attrToDelete})
-    return err
+func (cl *[[.Name]]DaoClient) DeleteAttributes(id string, attrToDelete ...string) error {
+	var projections = bson.D{}
+	for _, attribute := range attrToDelete {
+		projections = append(projections, bson.E{Key: attribute, Value: 1})
+	}
+	_, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, bson.M{"$unset": projections})
+	return err
 }
 
 func (cl *[[.Name]]DaoClient) AddToArray(id string, object bson.M) error {
