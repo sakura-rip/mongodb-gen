@@ -10,7 +10,7 @@ import (
     "go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func (cl *[[.Name]]DaoClient) DeleteOne(id string) (int, error) {
+func (cl *[[.Name]]DaoClient) DeleteOne(id string) (int64, error) {
     result, err := cl.Col.DeleteOne(cl.ctx, bson.M{"_id": id})
     if err != nil {
         return 0, err
@@ -18,7 +18,7 @@ func (cl *[[.Name]]DaoClient) DeleteOne(id string) (int, error) {
     return result.DeletedCount, err
 }
 
-func (cl *[[.Name]]DaoClient) DeleteMany(attr, bson.M) (int, error) {
+func (cl *[[.Name]]DaoClient) DeleteMany(attr bson.M) (int64, error) {
     result, err := cl.Col.DeleteMany(cl.ctx, attr)
     if err != nil {
         return 0, err
