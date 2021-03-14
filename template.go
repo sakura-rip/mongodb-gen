@@ -40,10 +40,10 @@ func createTemplateFile(path, tmpPath string, data interface{}, funcMap template
 	}
 	defer file.Close()
 
-	return ExecuteTemplate(string(txt), file, data, funcMap)
+	return ExecuteTemplate(string(txt), file, data, funcMap, path)
 }
 
-func ExecuteTemplate(txt string, file io.Writer, data interface{}, funcMap template.FuncMap) error {
+func ExecuteTemplate(txt string, file io.Writer, data interface{}, funcMap template.FuncMap, path string) error {
 	if funcMap == nil {
 		funcMap = make(map[string]interface{})
 		funcMap["version"] = getVersion
@@ -55,12 +55,21 @@ func ExecuteTemplate(txt string, file io.Writer, data interface{}, funcMap templ
 	if err != nil {
 		return xerrors.Errorf("error occurred during executing template: %w", err)
 	}
+
+	if path == "" {
+		return nil
+	}
+	_, err = ExecCommand("goimports", "-w", path)
+	if err != nil {
+		return xerrors.Errorf("error occurred during executing goimports: %w", err)
+	}
+
 	return nil
 }
 
 func ExecuteTemplateInStr(txt string, data interface{}, funcMap template.FuncMap) (string, error) {
 	var doc bytes.Buffer
-	err := ExecuteTemplate(txt, &doc, data, funcMap)
+	err := ExecuteTemplate(txt, &doc, data, funcMap, "")
 	if err != nil {
 		return "", err
 	}
