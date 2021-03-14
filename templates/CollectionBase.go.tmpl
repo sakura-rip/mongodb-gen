@@ -10,7 +10,7 @@ import (
     "go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func (cl *[[.Name]]DaoClient) InsertOne([[.LowerName]] *[[.Name]]) (string, error) {
+func (cl *[[.Name]]DaoClient) InsertOne([[.LowerName]] *[[.PackageName]].[[.Name]]) (string, error) {
     result, err := cl.Col.InsertOne(cl.ctx, [[.LowerName]])
     if err != nil {
         return "", err
@@ -54,41 +54,41 @@ func (cl *[[.Name]]DaoClient) RemoveFromArray(id string, object bson.M) error {
     return err
 }
 
-func (cl *[[.Name]]DaoClient) Fetch(id string) ([[.Name]], error) {
+func (cl *[[.Name]]DaoClient) Fetch(id string) ([[.PackageName]].[[.Name]], error) {
 	res := cl.Col.FindOne(
 		cl.ctx,
 		bson.D{{"_id", id}},
 	)
-	var [[.LowerName]] [[.Name]]
+	var [[.LowerName]] [[.PackageName]].[[.Name]]
 	if err := res.Decode(&[[.LowerName]]); err != nil {
 		return [[.LowerName]], err
 	}
 	return [[.LowerName]], nil
 }
 
-func (cl *[[.Name]]DaoClient) FetchAll() ([][[.Name]], error) {
+func (cl *[[.Name]]DaoClient) FetchAll() ([][[.PackageName]].[[.Name]], error) {
     res, _ := cl.Col.Find(cl.ctx, bson.M{})
-    var [[.LowerName]]s [][[.Name]]
+    var [[.LowerName]]s [][[.PackageName]].[[.Name]]
     if err := res.All(cl.ctx, &[[.LowerName]]s); err != nil {
         return [[.LowerName]]s, err
     }
     return [[.LowerName]]s, nil
 }
 
-func (cl *[[.Name]]DaoClient) FetchAttribute(id string, attributes bson.D) ([[.Name]], error) {
+func (cl *[[.Name]]DaoClient) FetchAttribute(id string, attributes bson.D) ([[.PackageName]].[[.Name]], error) {
 	res := cl.Col.FindOne(
 		cl.ctx,
 		bson.D{{"_id", id}},
 		options.FindOne().SetProjection(attributes),
 	)
-	var [[.LowerName]] [[.Name]]
+	var [[.LowerName]] [[.PackageName]].[[.Name]]
 	if err := res.Decode(&[[.LowerName]]); err != nil {
 		return [[.LowerName]], err
 	}
 	return [[.LowerName]], nil
 }
 
-func (cl *[[.Name]]DaoClient) FetchAttributes(id string, attributes ...string) ([[.Name]], error) {
+func (cl *[[.Name]]DaoClient) FetchAttributes(id string, attributes ...string) ([[.PackageName]].[[.Name]], error) {
 	var projections = bson.D{}
 	for _, attribute := range attributes {
 		projections = append(projections, bson.E{Key: attribute, Value: 1})
