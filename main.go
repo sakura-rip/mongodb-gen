@@ -20,7 +20,7 @@ func main() {
 
 	genTargetDir = targetDirName + "_dao"
 
-	cols := getAllCollections(targetDirName)
+	cols := getAllCollections()
 	fmt.Printf("%#v", cols)
 }
 
