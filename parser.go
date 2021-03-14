@@ -43,10 +43,11 @@ func getAllCollections() []Collection {
 				log.Fatal(err)
 			}
 			col := Collection{
-				Name:      colName,
-				LowerName: strcase.ToLowerCamel(colName),
-				Fields:    map[string]CollectionField{},
-				FileName:  fileName,
+				Name:        colName,
+				LowerName:   strcase.ToLowerCamel(colName),
+				Fields:      map[string]CollectionField{},
+				FileName:    fileName,
+				PackageName: file.Name.Name,
 			}
 
 			for _, field := range file.Scope.Objects[colName].Decl.(*ast.TypeSpec).Type.(*ast.StructType).Fields.List {
