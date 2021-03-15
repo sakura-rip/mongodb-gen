@@ -14,7 +14,7 @@ func Nor(attrs ...bson.M) bson.M {
 	return bson.M{"$nor": attrs}
 }
 
-func Not(attrs ...bson.M) bson.M {
+func Not(attrs bson.M) bson.M {
 	return bson.M{"$not": attrs}
 }
 
