@@ -39,7 +39,8 @@ func getAllCollections() []Collection {
 			baseFname := strings.TrimSuffix(d.Name(), supportExtension)
 			colName := strcase.ToCamel(baseFname)
 
-			if err = checkCollectionStructExist(file, colName); err != nil {
+			idField, err = checkCollectionStructExist(file, colName)
+			if err != nil {
 				log.Fatal(err)
 			}
 			col := Collection{
