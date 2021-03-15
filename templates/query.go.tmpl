@@ -33,3 +33,7 @@ func AddToSet(attrs bson.M) bson.M {
 func Pull(attrs bson.M) bson.M {
 	return bson.M{"$pull": attrs}
 }
+
+func In(attrs ...interface{}) bson.M {
+	return bson.M{"in": attrs}
+}
