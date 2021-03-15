@@ -84,15 +84,16 @@ func isCollectionStructExist(file *ast.File, structName string) error {
 		if !isStruct(obj) {
 			return xerrors.Errorf("%w must be a structure.", structName)
 		}
-		if getStructNameHaveID(obj) == "" {
-			return xerrors.Errorf("Structure: %w %w", structName, " must have a field with tag `bson:\"_id\"`")
+		if getStructFieldHaveID(obj) == nil {
+			return xerrors.Errorf("Structure: %w %w", structName, " must have one field with tag `bson:\"_id\"`")
 		}
 		return nil
 	}
 }
 
-func getStructNameHaveID(obj *ast.Object) string {
+func getStructFieldHaveID(obj *ast.Object) *ast.Field {
 	objStruct := obj.Decl.(*ast.TypeSpec).Type.(*ast.StructType)
+	var fields []*ast.Field
 	for _, field := range objStruct.Fields.List {
 		//fieldName := field.Names[0].Name
 		tags, err := structtag.Parse(strings.Trim(field.Tag.Value, "`"))
@@ -100,10 +101,13 @@ func getStructNameHaveID(obj *ast.Object) string {
 			log.Fatal("error occurred during parsing field tag:", err)
 		}
 		if val, _ := tags.Get("bson"); val.Name == "_id" {
-			return obj.Decl.(*ast.TypeSpec).Name.Name
+			fields = append(fields, field)
 		}
 	}
-	return ""
+	if len(fields) == 1 {
+		return fields[0]
+	}
+	return nil
 }
 
 func isStruct(obj *ast.Object) bool {
