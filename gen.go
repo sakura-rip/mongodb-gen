@@ -22,3 +22,10 @@ func generateCollectionBaseFile(col Collection) error {
 func generateCollectionFieldBase(field CollectionField) (string, error) {
 	return ExecuteTemplateInStr(templates.DefaultField, field, nil)
 }
+
+func generateQueryFile() error {
+	return createTemplateFile(
+		genTargetDir+"/"+"query.go",
+		"./templates/query.go.tmpl",
+		nil, nil)
+}

@@ -39,3 +39,12 @@ func TestGenerateCollectionFieldBase(t *testing.T) {
 		fmt.Println(base)
 	}
 }
+
+func TestGenerateQueryFile(t *testing.T) {
+	targetDirName = "sample"
+	genTargetDir = targetDirName + "_dao"
+	err := generateQueryFile()
+	if err != nil {
+		t.Error(err)
+	}
+}
