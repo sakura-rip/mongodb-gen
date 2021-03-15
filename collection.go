@@ -34,6 +34,8 @@ type CollectionField struct {
 	LowerName string
 	//`bson:"BsonName"`
 	BsonName string
+	//Collection.PackageName
+	PackageName string
 }
 
 func NewCollectionField() CollectionField {
