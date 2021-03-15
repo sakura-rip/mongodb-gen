@@ -39,7 +39,7 @@ func getAllCollections() []Collection {
 			baseFname := strings.TrimSuffix(d.Name(), supportExtension)
 			colName := strcase.ToCamel(baseFname)
 
-			if err = isCollectionStructExist(file, colName); err != nil {
+			if err = checkCollectionStructExist(file, colName); err != nil {
 				log.Fatal(err)
 			}
 			col := Collection{
@@ -75,7 +75,7 @@ func getAllCollections() []Collection {
 }
 
 //ファイル名と同じ、Collection名となる構造体の存在を確認する
-func isCollectionStructExist(file *ast.File, structName string) error {
+func checkCollectionStructExist(file *ast.File, structName string) error {
 	if obj, ok := file.Scope.Objects[structName]; ok == false {
 		return xerrors.Errorf("A structure with the same name as the file name is required.\n"+
 			"The structure should contain a field with the tag `bson:\"_id\"`.\n"+
@@ -84,7 +84,7 @@ func isCollectionStructExist(file *ast.File, structName string) error {
 		if !isStruct(obj) {
 			return xerrors.Errorf("%w must be a structure.", structName)
 		}
-		if getStructFieldHaveID(obj) == nil {
+		if field := getStructFieldHaveID(obj); field == nil {
 			return xerrors.Errorf("Structure: %w %w", structName, " must have one field with tag `bson:\"_id\"`")
 		}
 		return nil
