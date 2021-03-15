@@ -88,20 +88,16 @@ func (cl *[[.Name]]DaoClient) Get[[.Name]](id [[.IdFieldType]]) ([[.PackageName]
 		cl.ctx,
 		bson.D{{"_id", id}},
 	)
-	var [[.LowerName]] [[.PackageName]].[[.Name]]
-	if err := res.Decode(&[[.LowerName]]); err != nil {
-		return [[.LowerName]], err
+	var [[.LowerName]]s [][[.PackageName]].[[.Name]]
+	if err := res.All(cl.ctx, &[[.LowerName]]s); er != nil {
+        return [[.LowerName]]s, err
 	}
-	return [[.LowerName]], nil
+
+	return [[.LowerName]]s, nil
 }
 
 func (cl *[[.Name]]DaoClient) GetAll() ([][[.PackageName]].[[.Name]], error) {
-    res, _ := cl.Col.Find(cl.ctx, bson.M{})
-    var [[.LowerName]]s [][[.PackageName]].[[.Name]]
-    if err := res.All(cl.ctx, &[[.LowerName]]s); err != nil {
-        return [[.LowerName]]s, err
-    }
-    return [[.LowerName]]s, nil
+	return cl.Get(bson.M{})
 }
 
 func (cl *[[.Name]]DaoClient) GetAttribute(id [[.IdFieldType]], attributes bson.D) ([[.PackageName]].[[.Name]], error) {
