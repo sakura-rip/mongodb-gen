@@ -31,8 +31,8 @@ func newUser(uuid string) *sample.User {
 		Hoge:     1245,
 		Fuck:     4589,
 		Tag: map[string]sample.Tag{
-			"tag1": sample.Tag{Description: "this is item1"},
-			"tag2": sample.Tag{Description: "this is item2"},
+			"tag1": {Description: "this is item1"},
+			"tag2": {Description: "this is item2"},
 		},
 	}
 }
