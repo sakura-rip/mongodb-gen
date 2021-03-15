@@ -31,10 +31,10 @@ func (cl *[[.Name]]DaoClient) InsertOne([[.LowerName]] *[[.PackageName]].[[.Name
     if err != nil {
         return "", err
     }
-    if oid, ok := result.InsertedID.(primitive.ObjectID); ok {
-        return oid.Hex(), nil
-    }
-    return "", nil
+	if oid, ok := result.InsertedID.(string); ok {
+		return oid, nil
+	}
+	return "", nil
 }
 
 func (cl *[[.Name]]DaoClient) InsertMany(objs []interface{}) ([]string, error) {
@@ -44,7 +44,7 @@ func (cl *[[.Name]]DaoClient) InsertMany(objs []interface{}) ([]string, error) {
     }
     var strIds []string
 	for _, id := range result.InsertedIDs {
-		strIds = append(strIds, id.(primitive.ObjectID).Hex())
+		strIds = append(strIds, id.(string)
 		return strIds, nil
 	}
     return strIds, nil
