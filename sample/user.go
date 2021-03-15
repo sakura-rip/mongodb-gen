@@ -19,5 +19,6 @@ type Profile struct {
 }
 
 type Tag struct {
+	Id          string `bson:"id"`
 	Description string `bson:"description"`
 }
