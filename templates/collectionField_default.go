@@ -12,11 +12,11 @@ func (cl *[[.RootName]]DaoClient) Update[[.RootName]][[.FieldName]](id, [[.Field
 	return cl.UpdateAttribute(id, bson.D{{"[[.BsonName]]", [[.FieldName]]}})
 }
 
-func (cl *[[.RootName]]DaoClient) Delete[[.RootName]][[.FieldName]](id string) error {
+func (cl *[[.RootName]]DaoClient) Delete[[.RootName]][[.FieldName]](id [[.IdFieldType]]) error {
 	return cl.DeleteAttributes(id, "[[.BsonName]]")
 }
 
-func (cl *[[.RootName]]DaoClient) Get[[.RootName]][[.FieldName]](id string) ([[.FieldType]], error) {
+func (cl *[[.RootName]]DaoClient) Get[[.RootName]][[.FieldName]](id [[.IdFieldType]]) ([[.FieldType]], error) {
 	[[.LowerName]], err := cl.GetAttributes(id, "[[.BsonName]]")
 	if err != nil {
 		return "", err
