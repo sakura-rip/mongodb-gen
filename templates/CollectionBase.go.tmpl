@@ -50,27 +50,23 @@ func (cl *[[.Name]]DaoClient) InsertMany(objs []interface{}) ([]string, error) {
     return strIds, nil
 }
 
-func (cl *[[.Name]]DaoClient) UpdateAttribute(id [[.IdFieldType]], attrToUpdate bson.D) error {
-    _, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, bson.M{"$set": attrToUpdate})
+func (cl *[[.Name]]DaoClient) UpdateAttribute(id [[.IdFieldType]], attrToUpdate bson.M) error {
+    _, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, Set(attrToUpdate))
     return err
 }
 
-func (cl *[[.Name]]DaoClient) DeleteAttributes(id [[.IdFieldType]], attrToDelete ...string) error {
-	var attrs = bson.D{}
-	for _, attribute := range attrToDelete {
-		attrs = append(attrs, bson.E{Key: attribute, Value: 1})
-	}
-	_, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, bson.M{"$unset": attrs})
+func (cl *[[.Name]]DaoClient) DeleteAttributes(id [[.IdFieldType]], attrToDelete bson.M) error {
+	_, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, Unset(attrToDelete))
 	return err
 }
 
 func (cl *[[.Name]]DaoClient) AddToArray(id [[.IdFieldType]], object bson.M) error {
-    _, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, bson.M{"$addToSet": object})
+    _, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, AddToSet(object))
     return err
 }
 
 func (cl *[[.Name]]DaoClient) RemoveFromArray(id [[.IdFieldType]], object bson.M) error {
-    _, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, bson.M{"$pull": object})
+    _, err := cl.Col.UpdateOne(cl.ctx, bson.M{"_id": id}, Pull(object))
     return err
 }
 
