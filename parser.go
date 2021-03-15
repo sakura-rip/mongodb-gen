@@ -39,7 +39,7 @@ func getAllCollections() []Collection {
 			baseFname := strings.TrimSuffix(d.Name(), supportExtension)
 			colName := strcase.ToCamel(baseFname)
 
-			idField, err = checkCollectionStructExist(file, colName)
+			idField, err := checkCollectionStructExist(file, colName)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -49,6 +49,7 @@ func getAllCollections() []Collection {
 				Fields:      map[string]CollectionField{},
 				FileName:    fileName,
 				PackageName: file.Name.Name,
+				IdFieldType: types.ExprString(idField.Type),
 			}
 
 			for _, field := range file.Scope.Objects[colName].Decl.(*ast.TypeSpec).Type.(*ast.StructType).Fields.List {
