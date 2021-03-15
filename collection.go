@@ -13,6 +13,8 @@ type Collection struct {
 
 	GoModPackageName string
 	PackageName      string
+
+	IdFieldType string
 }
 
 func NewCollection() Collection {
