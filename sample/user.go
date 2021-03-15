@@ -4,11 +4,14 @@ type User struct {
 	Id    string `bson:"_id"`
 	Email string `bson:"email"`
 
-	Profile Profile `bson:"profile"`
+	Profile  Profile   `bson:"profile"`
+	Profiles []Profile `bson:"profiles"`
+	Items    []string  `bson:"items"`
 
-	Items []string `bson:"items"`
+	Hoge interface{} `bson:"hoge"`
 
-	Tag map[string]Tag `bson:"tag"`
+	Fuck int            `bson:"fuck"`
+	Tag  map[string]Tag `bson:"tag"`
 }
 
 type Profile struct {

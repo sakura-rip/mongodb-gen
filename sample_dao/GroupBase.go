@@ -92,16 +92,12 @@ func (cl *GroupDaoClient) GetGroup(id string) (sample.Group, error) {
 	if err := res.Decode(&group); err != nil {
 		return group, err
 	}
+
 	return group, nil
 }
 
 func (cl *GroupDaoClient) GetAll() ([]sample.Group, error) {
-	res, _ := cl.Col.Find(cl.ctx, bson.M{})
-	var groups []sample.Group
-	if err := res.All(cl.ctx, &groups); err != nil {
-		return groups, err
-	}
-	return groups, nil
+	return cl.Get(bson.M{})
 }
 
 func (cl *GroupDaoClient) GetAttribute(id string, attributes bson.D) (sample.Group, error) {
