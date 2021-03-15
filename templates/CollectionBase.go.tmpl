@@ -44,7 +44,7 @@ func (cl *[[.Name]]DaoClient) InsertMany(objs []interface{}) ([]string, error) {
     }
     var strIds []string
 	for _, id := range result.InsertedIDs {
-		strIds = append(strIds, id.(string)
+		strIds = append(strIds, id.(string))
 		return strIds, nil
 	}
     return strIds, nil
@@ -88,12 +88,12 @@ func (cl *[[.Name]]DaoClient) Get[[.Name]](id [[.IdFieldType]]) ([[.PackageName]
 		cl.ctx,
 		bson.D{{"_id", id}},
 	)
-	var [[.LowerName]]s [][[.PackageName]].[[.Name]]
-	if err := res.All(cl.ctx, &[[.LowerName]]s); er != nil {
-        return [[.LowerName]]s, err
+	var [[.LowerName]] [[.PackageName]].[[.Name]]
+	if err := res.Decode(&[[.LowerName]]); err != nil {
+        return [[.LowerName]], err
 	}
 
-	return [[.LowerName]]s, nil
+	return [[.LowerName]], nil
 }
 
 func (cl *[[.Name]]DaoClient) GetAll() ([][[.PackageName]].[[.Name]], error) {
