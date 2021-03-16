@@ -77,7 +77,7 @@ func (cl *GroupDaoClient) Get(filter bson.M) ([]sample.Group, error) {
 		return nil, err
 	}
 	var groups []sample.Group
-	if err := res.Decode(&groups); err != nil {
+	if err := res.All(cl.ctx, &groups); err != nil {
 		return nil, err
 	}
 	return groups, err
