@@ -77,7 +77,7 @@ func (cl *UserDaoClient) Get(filter bson.M) ([]sample.User, error) {
 		return nil, err
 	}
 	var users []sample.User
-	if err := res.Decode(&users); err != nil {
+	if err := res.All(cl.ctx, &users); err != nil {
 		return nil, err
 	}
 	return users, err
