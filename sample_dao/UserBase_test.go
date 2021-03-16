@@ -41,6 +41,7 @@ func init() {
 	cl = NewUserDaoClient()
 	uid = newUuid()
 	SampleUser = newUser(uid)
+	cl.InsertOne(SampleUser)
 }
 
 func TestInsertOne(t *testing.T) {
