@@ -5,8 +5,16 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func (cl *UserDaoClient) InsertItem(userId string, item string) error {
-	return cl.AddToArray(userId, bson.M{"items": item})
+func (cl *UserDaoClient) DeleteItemField(id string) error {
+	return cl.DeleteAttributes(id, bson.M{"items": 1})
+}
+
+func (cl *UserDaoClient) InsertOrUpdateItemField(id string, object interface{}) error {
+	return cl.UpdateAttribute(id, bson.M{"items": object})
+}
+
+func (cl *UserDaoClient) InsertItem(id string, item string) error {
+	return cl.AddToArray(id, bson.M{"items": item})
 }
 
 func (cl *UserDaoClient) DeleteItem(userId, item string) error {
