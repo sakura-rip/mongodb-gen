@@ -34,3 +34,13 @@ func TestGenerateQueryFile(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestGenerateFieldDefaultFile(t *testing.T) {
+	targetDirName = "sample"
+	genTargetDir = targetDirName + "_dao"
+	cols := getAllCollections()
+	err := generateFieldDefaultFile(cols[1].Fields["Email"])
+	if err != nil {
+		t.Error(err)
+	}
+}
