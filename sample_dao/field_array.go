@@ -17,8 +17,8 @@ func (cl *UserDaoClient) InsertItem(id string, item string) error {
 	return cl.AddToArray(id, bson.M{"items": item})
 }
 
-func (cl *UserDaoClient) DeleteItem(userId, item string) error {
-	return cl.RemoveFromArray(userId, bson.M{"items": item})
+func (cl *UserDaoClient) DeleteItem(id, item string) error {
+	return cl.RemoveFromArray(id, bson.M{"items": item})
 }
 
 func (cl *UserDaoClient) GetUserByItemIn(item ...interface{}) ([]sample.User, error) {
