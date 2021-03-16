@@ -1,4 +1,4 @@
-package dao
+package stash
 
 import (
 	"github.com/sakura-rip/mongodbgen/sample"
