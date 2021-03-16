@@ -14,6 +14,7 @@ type Collection struct {
 	GoModPackageName string
 	PackageName      string
 
+	IdFieldName string
 	IdFieldType string
 }
 

@@ -49,6 +49,7 @@ func getAllCollections() []Collection {
 				Fields:      map[string]CollectionField{},
 				FileName:    fileName,
 				PackageName: file.Name.Name,
+				IdFieldName: idField.Names[0].Name,
 				IdFieldType: types.ExprString(idField.Type),
 			}
 
