@@ -24,8 +24,15 @@ func NewCollection() Collection {
 }
 
 type CollectionField struct {
-	//親の名前(Collection.Name)
+	//Collection.Name
 	RootName string
+	//Collection.LowerName
+	RootLowerName string
+	//Collection.IdFieldType
+	RootIdFieldType string
+	//Collection.PackageName
+	PackageName string
+
 	//フィールド名
 	FieldName string
 	//フィールドのType
@@ -34,8 +41,6 @@ type CollectionField struct {
 	LowerName string
 	//`bson:"BsonName"`
 	BsonName string
-	//Collection.PackageName
-	PackageName string
 }
 
 func NewCollectionField() CollectionField {
