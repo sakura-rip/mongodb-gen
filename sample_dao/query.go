@@ -39,5 +39,17 @@ func Pull(attrs bson.M) bson.M {
 }
 
 func In(attrs ...interface{}) bson.M {
-	return bson.M{"in": attrs}
+	return bson.M{"$in": attrs}
+}
+
+func ElemMatch(attr bson.M) bson.M {
+	return bson.M{"$elemMatch": attr}
+}
+
+func All(attr ...interface{}) bson.M {
+	return bson.M{"$all": attr}
+}
+
+func Size(size int64) bson.M {
+	return bson.M{"$size": size}
 }
