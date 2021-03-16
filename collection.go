@@ -24,15 +24,7 @@ func NewCollection() Collection {
 }
 
 type CollectionField struct {
-	//Collection.Name
-	RootName string
-	//Collection.LowerName
-	RootLowerName string
-	//Collection.IdFieldType
-	RootIdFieldType string
-	//Collection.PackageName
-	PackageName string
-
+	Root Collection
 	//フィールド名
 	FieldName string
 	//フィールドのType
