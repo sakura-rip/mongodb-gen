@@ -1,0 +1,24 @@
+
+func (cl *[[.RootName]]DaoClient) InsertOrUpdate[[.RootName]][[.FieldName]](id [[.RootIdFieldType]], new[[.FieldName]] [[.FieldType]]) error {
+	return cl.UpdateAttribute(id, bson.M{"[[.BsonName]]": new[[.FieldName]]})
+}
+
+func (cl *[[.RootName]]DaoClient) Delete[[.RootName]][[.FieldName]](id [[.RootIdFieldType]]) error {
+	return cl.DeleteAttributes(id, bson.M{"[[.BsonName]]": 1})
+}
+
+func (cl *[[.RootName]]DaoClient) Get[[.RootName]][[.FieldName]](id [[.RootIdFieldType]]) ([[.FieldType]], error) {
+	[[.RootLowerName]], err := cl.GetAttributes(id, "[[.BsonName]]")
+	if err != nil {
+		return "", err
+	}
+	return [[.RootLowerName]].[[.FieldName]], err
+}
+
+func (cl *[[.RootName]]DaoClient) Get[[.RootName]]By[[.FieldName]]([[.LowerName]] [[.FieldType]]) ([][[.PackageName]].[[.RootName]], error) {
+	[[.RootLowerName]]s, err := cl.Get(bson.M{"[[.BsonName]]": [[.LowerName]]})
+	if err != nil {
+		return nil, err
+	}
+	return [[.RootLowerName]]s, nil
+}
