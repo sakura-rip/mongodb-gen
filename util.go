@@ -117,3 +117,13 @@ func isKnownType(str string) bool {
 		return false
 	}
 }
+
+func getArrayType(field CollectionField) string {
+	ft := field.FieldType[2:]
+	switch {
+	case isKnownType(ft):
+		return ft
+	default:
+		return "interface{}"
+	}
+}
