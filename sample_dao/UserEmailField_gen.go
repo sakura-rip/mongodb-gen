@@ -17,10 +17,10 @@ func (cl *UserDaoClient) DeleteUserEmail(id string) error {
 	return cl.DeleteAttributes(id, bson.M{"email": 1})
 }
 
-func (cl *UserDaoClient) GetUserEmail(id string) (string, error) {
+func (cl *UserDaoClient) GetUserEmail(id string) (val string, err error) {
 	user, err := cl.GetAttributes(id, "email")
 	if err != nil {
-		return "", err
+		return val, err
 	}
 	return user.Email, err
 }
