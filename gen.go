@@ -1,5 +1,7 @@
 package main
 
+import "html/template"
+
 func generateClientFile(collections []Collection) error {
 	return createTemplateFile(
 		genTargetDir+"/client_gen.go", "./templates/client.go.tmpl",
@@ -29,4 +31,11 @@ func generateFieldKnownTypeFile(field CollectionField) error {
 		genTargetDir+"/"+field.Root.Name+field.FieldName+"Field_gen.go",
 		"./templates/field_knownType.go.tmpl",
 		field, nil)
+}
+
+func generateFieldArrayTypeFile(field CollectionField) error {
+	return createTemplateFile(
+		genTargetDir+"/"+field.Root.Name+field.FieldName+"Field_gen.go",
+		"./templates/field_arrayType.go.tmpl",
+		field, template.FuncMap{"getArrayType": getArrayType})
 }
