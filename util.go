@@ -151,3 +151,7 @@ func getMapValueType(field CollectionField) string {
 		return "interface{}"
 	}
 }
+
+func sprints(base string, val ...interface{}) string {
+	return fmt.Sprintf(base+strings.Repeat(".%s", len(val)), val...)
+}
