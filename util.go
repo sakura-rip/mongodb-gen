@@ -147,6 +147,7 @@ func getMapValueType(field CollectionField) string {
 	switch {
 	case isKnownType(key):
 		return key
+	//	TODO:valueがmapやStructの時の対応
 	default:
 		return "interface{}"
 	}
