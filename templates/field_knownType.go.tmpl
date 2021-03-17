@@ -12,10 +12,10 @@ func (cl *[[.Root.Name]]DaoClient) Delete[[.Root.Name]][[.FieldName]](id [[.Root
 	return cl.DeleteAttributes(id, bson.M{"[[.BsonName]]": 1})
 }
 
-func (cl *[[.Root.Name]]DaoClient) Get[[.Root.Name]][[.FieldName]](id [[.Root.IdFieldType]]) ([[.FieldType]], error) {
+func (cl *[[.Root.Name]]DaoClient) Get[[.Root.Name]][[.FieldName]](id [[.Root.IdFieldType]]) (val [[.FieldType]], err error) {
 	[[.Root.LowerName]], err := cl.GetAttributes(id, "[[.BsonName]]")
 	if err != nil {
-		return "", err
+		return val, err
 	}
 	return [[.Root.LowerName]].[[.FieldName]], err
 }
