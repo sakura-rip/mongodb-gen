@@ -46,8 +46,8 @@ func createTemplateFile(path, tmpPath string, data interface{}, funcMap template
 func ExecuteTemplate(txt string, file io.Writer, data interface{}, funcMap template.FuncMap, path string) error {
 	if funcMap == nil {
 		funcMap = make(map[string]interface{})
-		funcMap["version"] = getVersion
 	}
+	funcMap["version"] = getVersion
 	newTmp := template.New("mongo-db-gen")
 	newTmp.Delims("[[", "]]")
 	tmp := template.Must(newTmp.Funcs(funcMap).Parse(txt))
