@@ -111,7 +111,7 @@ func GetGoRootPackageName() (string, error) {
 
 func isKnownType(str string) bool {
 	switch str {
-	case "bool", "byte", "complex128", "complex64", "float32", "float64", "int", "int16", "int32", "int64", "int8", "rune", "string", "uint", "uint16", "uint32", "uint64", "uint8", "uintptr":
+	case "bool", "byte", "complex128", "complex64", "float32", "float64", "int", "int16", "int32", "int64", "int8", "rune", "string", "uint", "uint16", "uint32", "uint64", "uint8", "uintptr", "interface{}":
 		return true
 	default:
 		return false
