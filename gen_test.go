@@ -39,8 +39,26 @@ func TestGenerateFieldDefaultFile(t *testing.T) {
 	targetDirName = "sample"
 	genTargetDir = targetDirName + "_dao"
 	cols := getAllCollections()
-	err := generateFieldDefaultFile(cols[1].Fields["Email"])
-	if err != nil {
-		t.Error(err)
+	for _, col := range cols {
+		for fName, field := range col.Fields {
+			if fName == col.IdFieldName {
+				continue
+			}
+			switch {
+			//array
+			case strings.HasPrefix(field.FieldType, "[]"):
+			//map
+			case strings.HasPrefix(field.FieldType, "map["):
+			//default(int, str...etc
+			case isKnownType(field.FieldType):
+				err := generateFieldKnownTypeFile(field)
+				if err != nil {
+					t.Error(err)
+				}
+			//struct
+			default:
+
+			}
+		}
 	}
 }
