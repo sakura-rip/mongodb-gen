@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -47,6 +48,10 @@ func TestGenerateFieldDefaultFile(t *testing.T) {
 			switch {
 			//array
 			case strings.HasPrefix(field.FieldType, "[]"):
+				err := generateFieldArrayTypeFile(field)
+				if err != nil {
+					t.Error(err)
+				}
 			//map
 			case strings.HasPrefix(field.FieldType, "map["):
 			//default(int, str...etc
