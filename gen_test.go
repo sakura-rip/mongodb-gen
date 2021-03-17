@@ -54,6 +54,10 @@ func TestGenerateFieldDefaultFile(t *testing.T) {
 				}
 			//map
 			case strings.HasPrefix(field.FieldType, "map["):
+				err := generateFieldMapTypeFile(field)
+				if err != nil {
+					t.Error(err)
+				}
 			//default(int, str...etc
 			case isKnownType(field.FieldType):
 				err := generateFieldKnownTypeFile(field)
