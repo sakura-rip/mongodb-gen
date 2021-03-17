@@ -24,9 +24,9 @@ func generateQueryFile() error {
 		nil, nil)
 }
 
-func generateFieldDefaultFile(field CollectionField) error {
+func generateFieldKnownTypeFile(field CollectionField) error {
 	return createTemplateFile(
 		genTargetDir+"/"+field.Root.Name+field.FieldName+"Field_gen.go",
-		"./templates/field_default.go.tmpl",
+		"./templates/field_knownType.go.tmpl",
 		field, nil)
 }
