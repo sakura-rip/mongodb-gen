@@ -39,3 +39,10 @@ func generateFieldArrayTypeFile(field CollectionField) error {
 		"./templates/field_arrayType.go.tmpl",
 		field, template.FuncMap{"getArrayType": getArrayType})
 }
+
+func generateFieldMapTypeFile(field CollectionField) error {
+	return createTemplateFile(
+		genTargetDir+"/"+field.Root.Name+field.FieldName+"Field_gen.go",
+		"./templates/field_mapType.go.tmpl",
+		field, template.FuncMap{"getMapKeyType": getMapKeyType, "getMapValueType": getMapValueType})
+}
