@@ -127,3 +127,27 @@ func getArrayType(field CollectionField) string {
 		return "interface{}"
 	}
 }
+
+func getMapKeyType(field CollectionField) string {
+	//map[]string
+	start := strings.Index(field.FieldType, "[")
+	end := strings.Index(field.FieldType, "]")
+	key := field.FieldType[start-1 : end-1]
+	switch {
+	case isKnownType(key):
+		return key
+	default:
+		return "interface{}"
+	}
+}
+
+func getMapValueType(field CollectionField) string {
+	end := strings.Index(field.FieldType, "]")
+	key := field.FieldType[end-1 : len(field.FieldType)-1]
+	switch {
+	case isKnownType(key):
+		return key
+	default:
+		return "interface{}"
+	}
+}
