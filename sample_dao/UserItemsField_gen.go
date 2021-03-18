@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"github.com/sakura-rip/mongodbgen/sample"
+	"github.com/sakura-rip/mongodb-gen/sample"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
