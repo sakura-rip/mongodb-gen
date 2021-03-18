@@ -173,3 +173,19 @@ func isStruct(obj *ast.Object) bool {
 	}
 	return true
 }
+
+func isStructField(field *ast.Field) bool {
+	iden, ok := field.Type.(*ast.Ident)
+	if !ok {
+		return false
+	}
+	if iden.Obj == nil {
+		return false
+	}
+	ts, ok := iden.Obj.Decl.(*ast.TypeSpec)
+	if !ok {
+		return false
+	}
+	_, ok = ts.Type.(*ast.StructType)
+	return ok
+}
