@@ -31,15 +31,15 @@ func (cl *[[.Root.Name]]DaoClient) Get[[.Root.Name]]By[[.FieldName]](profile [[.
 
 [[ $save := . ]]
 [[- range $i, $v := .StructFields]]
-func (cl *[[$save.Root.Name]]DaoClient) UpdateOrInsert[[$save.Root.Name]][[$save.FieldName]][[$v.Name]](id [[$save.Root.IdFieldType]], [[$v.LowerName]] [[$v.FieldType]]) error {
+func (cl *[[$save.Root.Name]]DaoClient) UpdateOrInsert[[$save.Root.Name]][[$v.FieldLocation]](id [[$save.Root.IdFieldType]], [[$v.LowerName]] [[$v.FieldType]]) error {
 	return cl.UpdateAttribute(id, bson.M{"[[$v.LocationBson]]": [[$v.LowerName]]})
 }
 
-func (cl *[[$save.Root.Name]]DaoClient) Delete[[$save.Root.Name]][[$save.FieldName]][[$v.Name]](id [[$save.Root.IdFieldType]]) error {
+func (cl *[[$save.Root.Name]]DaoClient) Delete[[$save.Root.Name]][[$v.FieldLocation]](id [[$save.Root.IdFieldType]]) error {
 	return cl.DeleteAttributes(id, bson.M{"[[$v.LocationBson]]": 1})
 }
 
-func (cl *[[$save.Root.Name]]DaoClient) Get[[$save.Root.Name]][[$save.FieldName]][[$v.Name]](id [[$save.Root.IdFieldType]]) (val [[$v.FieldType]], err error) {
+func (cl *[[$save.Root.Name]]DaoClient) Get[[$save.Root.Name]][[$v.FieldLocation]](id [[$save.Root.IdFieldType]]) (val [[$v.FieldType]], err error) {
 	[[$save.Root.LowerName]], err := cl.GetAttribute(id, bson.D{{"[[$v.LocationBson]]", 1}})
 	if err != nil {
 		return val, err
@@ -47,7 +47,7 @@ func (cl *[[$save.Root.Name]]DaoClient) Get[[$save.Root.Name]][[$save.FieldName]
 	return [[$save.Root.LowerName]].[[$v.Location]], err
 }
 
-func (cl *[[$save.Root.Name]]DaoClient) Get[[$save.Root.Name]]By[[$save.FieldName]][[$v.Name]]([[$v.LowerName]] [[$v.FieldType]]) ([][[$save.Root.PackageName]].[[$save.Root.Name]], error) {
+func (cl *[[$save.Root.Name]]DaoClient) Get[[$save.Root.Name]]By[[$v.FieldLocation]]([[$v.LowerName]] [[$v.FieldType]]) ([][[$save.Root.PackageName]].[[$save.Root.Name]], error) {
 	return cl.Get(bson.M{"[[$v.LocationBson]]": [[$v.LowerName]]})
 }
 [[- end]]
