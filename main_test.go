@@ -14,6 +14,6 @@ func TestMainFunc(t *testing.T) {
 	}
 	targetDirName = os.Args[len(os.Args)-1]
 
-	cols := getAllCollections()
+	cols := getAllCollections(targetDirName)
 	fmt.Printf("%#v", cols)
 }
