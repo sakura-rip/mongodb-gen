@@ -34,8 +34,18 @@ type CollectionField struct {
 	LowerName string
 	//`bson:"BsonName"`
 	BsonName string
+
+	StructFields []StructFields
 }
 
 func NewCollectionField() CollectionField {
 	return CollectionField{}
+}
+
+type StructFields struct {
+	Name         string
+	LocationBson string //bson.bson.bson
+	LocationX    string //.Name.Name
+	FieldType    string
+	LowerName    string
 }
