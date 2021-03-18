@@ -98,9 +98,11 @@ func parseStructField(col *CollectionField, field *ast.Field, baseColFil *Struct
 	if baseColFil == nil {
 		strField.LocationBson = col.BsonName + "." + bsonTag.Name
 		strField.Location = col.FieldName + "." + fName
+		strField.FieldLocation = col.FieldName + fName
 	} else {
 		strField.LocationBson = baseColFil.LocationBson + "." + bsonTag.Name
 		strField.Location = baseColFil.Location + "." + fName
+		strField.FieldLocation = baseColFil.FieldLocation + fName
 	}
 	fields = append(fields, strField)
 	if !isStructField(field) {
