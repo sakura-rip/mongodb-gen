@@ -57,7 +57,6 @@ func getAllCollections() []Collection {
 				if len(field.Names) != 1 {
 					continue
 				}
-				//TODO: map, struct, arrayの対応を。
 				tags, _ := structtag.Parse(strings.Trim(field.Tag.Value, "`"))
 				bsonTag, _ := tags.Get("bson")
 				colFil := CollectionField{
