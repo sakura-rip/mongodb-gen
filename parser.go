@@ -60,12 +60,11 @@ func getAllCollections() []Collection {
 				tags, _ := structtag.Parse(strings.Trim(field.Tag.Value, "`"))
 				bsonTag, _ := tags.Get("bson")
 				colFil := CollectionField{
-					Root:         col,
-					FieldName:    field.Names[0].Name,
-					FieldType:    types.ExprString(field.Type),
-					LowerName:    strcase.ToLowerCamel(field.Names[0].Name),
-					BsonName:     bsonTag.Name,
-					StructFields: []StructField{},
+					Root:      col,
+					FieldName: field.Names[0].Name,
+					FieldType: types.ExprString(field.Type),
+					LowerName: strcase.ToLowerCamel(field.Names[0].Name),
+					BsonName:  bsonTag.Name,
 				}
 				colFil.StructFields = getCollectionField(field, &colFil)
 				col.Fields[colFil.FieldName] = colFil
@@ -77,24 +76,18 @@ func getAllCollections() []Collection {
 	return cols
 }
 
-func SetCollectionField(field *ast.Field, col *CollectionField) {
-	switch fi := field.Type.(*ast.Ident).Obj.Decl.(*ast.TypeSpec).Type; fi.(type) {
-	case *ast.StructType:
-		col.StructFields = []StructField{}
-		for _, field := range fi.(*ast.StructType).Fields.List {
-			if isStructField(field) {
-				parseStructField(col, field, nil)
-			}
+func getCollectionField(field *ast.Field, col *CollectionField) []StructField {
+	var fields []StructField
+	if isStructField(field) {
+		for _, field := range field.Type.(*ast.Ident).Obj.Decl.(*ast.TypeSpec).Type.(*ast.StructType).Fields.List {
+			fields = append(fields, parseStructField(col, field, nil)...)
 		}
 	}
+	return fields
 }
 
-func isStructField(field *ast.Field) bool {
-	_, ok := field.Type.(*ast.Ident).Obj.Decl.(*ast.TypeSpec).Type.(*ast.StructType)
-	return ok
-}
-
-func parseStructField(col *CollectionField, field *ast.Field, baseColFil *StructField) {
+func parseStructField(col *CollectionField, field *ast.Field, baseColFil *StructField) []StructField {
+	var fields []StructField
 	tags, _ := structtag.Parse(strings.Trim(field.Tag.Value, "`"))
 	bsonTag, _ := tags.Get("bson")
 	fName := field.Names[0].Name
@@ -110,16 +103,14 @@ func parseStructField(col *CollectionField, field *ast.Field, baseColFil *Struct
 		strField.LocationBson = baseColFil.LocationBson + "." + bsonTag.Name
 		strField.Location = baseColFil.Location + "." + fName
 	}
-	col.StructFields = append(col.StructFields, strField)
-	a, ok := field.Type.(*ast.Ident).Obj.Type.(*ast.StructType)
-	if !ok {
-		return
+	fields = append(fields, strField)
+	if !isStructField(field) {
+		return fields
 	}
-	for _, b := range a.Fields.List {
-		if isStructField(b) {
-			parseStructField(col, b, &strField)
-		}
+	for _, b := range field.Type.(*ast.Ident).Obj.Decl.(*ast.TypeSpec).Type.(*ast.StructType).Fields.List {
+		fields = append(fields, parseStructField(col, b, &strField)...)
 	}
+	return fields
 }
 
 //ファイル名と同じ、Collection名となる構造体の存在を確認する
