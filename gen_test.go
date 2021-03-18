@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -12,6 +13,17 @@ func TestGenerateClientFile(t *testing.T) {
 	err := generateClientFile(cols)
 	if err != nil {
 		t.Error(err)
+	}
+}
+
+func TestGetAllCollections(t *testing.T) {
+	targetDirName = "sample"
+	genTargetDir = targetDirName + "_dao"
+	a := getAllCollections()
+	for _, l := range a {
+		for _, i := range l.Fields {
+			fmt.Printf("%#v\n", i.StructFields)
+		}
 	}
 }
 
