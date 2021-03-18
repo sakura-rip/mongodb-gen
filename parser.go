@@ -18,9 +18,8 @@ const (
 	supportExtension = ".go"
 )
 
-func getAllCollections() []Collection {
+func getAllCollections(targetDirName string) []Collection {
 	fileSet := token.NewFileSet()
-
 	list, err := os.ReadDir(targetDirName)
 	if err != nil {
 		log.Fatal("error occurred during opening dir: %w", err)
