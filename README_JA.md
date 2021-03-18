@@ -1,13 +1,12 @@
 # mongodb-gen
-[Japanese](README_JA.md)
 
-The mongodb-gen tool produces a mongodb dao(data access object) from given go struct.
+このツールは、MongodbのDAO(data access object)を与えられたディレクトリの中にある構造体から生成します
 
 # Installation
 
-Download from release [page](https://github.com/sakura-rip/mongodb-gen/releases)
+[リリースページ](https://github.com/sakura-rip/mongodb-gen/releases) からダウンロード 
 
-or using shell
+またはシェルを利用してインストール
 
 ```shell
 go get -u github.com/sakura-rip/mongodb-gen
@@ -16,7 +15,7 @@ go install github.com/sakura-rip/mongodb-gen
 
 # Generate example
 
-Here is sample dir
+サンプルのディレクトリがあるとします
 
 ```shell
 $ tree /f
@@ -27,13 +26,13 @@ D:.
 │      user.go  
 ```
 
-then
+そして下のコマンドを実行します(`windowsの場合はmongo-gen.txt sample`)
 
 ```shell
 mongodb-gen sample
 ```
 
-out:
+生成されたファイルは下のようになります
 
 ```shell
 $ tree /f
@@ -52,7 +51,7 @@ D:.
       ...etx
 ```
 
-# Usage of generated file
+# 生成されたDAOの利用方法
 
 ```go
 package main
@@ -82,4 +81,4 @@ func main() {
 }
 ```
 
-read generated file to get more detail
+生成されたファイルを読むことで更なる情報を手に入れることができます。
