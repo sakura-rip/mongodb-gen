@@ -46,3 +46,10 @@ func generateFieldMapTypeFile(field CollectionField) error {
 		"./templates/field_mapType.go.tmpl",
 		field, template.FuncMap{"getMapKeyType": getMapKeyType, "getMapValueType": getMapValueType})
 }
+
+func generateFieldStructTypeFile(field CollectionField) error {
+	return createTemplateFile(
+		genTargetDir+"/"+field.Root.Name+field.FieldName+"Field_gen.go",
+		"./templates/field_structType.go.tmpl",
+		field, nil)
+}
