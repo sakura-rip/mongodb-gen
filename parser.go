@@ -104,6 +104,9 @@ func parseStructField(col *CollectionField, field *ast.Field, baseColFil *Struct
 		strField.Location = baseColFil.Location + "." + fName
 		strField.FieldLocation = baseColFil.FieldLocation + fName
 	}
+	if isStructFieldValue(strField.FieldType) {
+		strField.FieldType = col.Root.PackageName + "." + strField.FieldType
+	}
 	fields = append(fields, strField)
 	if !isStructField(field) {
 		return fields
