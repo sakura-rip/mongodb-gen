@@ -66,7 +66,10 @@ func TestGenerateFieldDefaultFile(t *testing.T) {
 				}
 			//struct
 			default:
-
+				err := generateFieldStructTypeFile(field)
+				if err != nil {
+					t.Error(err)
+				}
 			}
 		}
 	}
