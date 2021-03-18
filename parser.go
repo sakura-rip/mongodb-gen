@@ -67,8 +67,8 @@ func getAllCollections() []Collection {
 					BsonName:     bsonTag.Name,
 					StructFields: []StructField{},
 				}
+				colFil.StructFields = getCollectionField(field, &colFil)
 				col.Fields[colFil.FieldName] = colFil
-				SetCollectionField(field, &colFil)
 			}
 
 			cols = append(cols, col)
