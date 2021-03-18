@@ -15,7 +15,7 @@ var (
 )
 
 func main() {
-	if len(os.Args) < 0 {
+	if len(os.Args) < 2 {
 		log.Fatal("target dir required")
 	}
 	targetDirName, err := filepath.Abs(os.Args[len(os.Args)-1])
