@@ -29,7 +29,7 @@ func (cl *NewDaoClient) GetNewByBase1(profile sample.Base1) ([]sample.New, error
 	return cl.Get(bson.M{"base_1": profile})
 }
 
-func (cl *NewDaoClient) UpdateOrInsertNewBase1Base2(id string, base2 Base2) error {
+func (cl *NewDaoClient) UpdateOrInsertNewBase1Base2(id string, base2 sample.Base2) error {
 	return cl.UpdateAttribute(id, bson.M{"base_1.base_2": base2})
 }
 
@@ -37,7 +37,7 @@ func (cl *NewDaoClient) DeleteNewBase1Base2(id string) error {
 	return cl.DeleteAttributes(id, bson.M{"base_1.base_2": 1})
 }
 
-func (cl *NewDaoClient) GetNewBase1Base2(id string) (val Base2, err error) {
+func (cl *NewDaoClient) GetNewBase1Base2(id string) (val sample.Base2, err error) {
 	new, err := cl.GetAttribute(id, bson.D{{"base_1.base_2", 1}})
 	if err != nil {
 		return val, err
@@ -45,18 +45,18 @@ func (cl *NewDaoClient) GetNewBase1Base2(id string) (val Base2, err error) {
 	return new.Base1.Base2, err
 }
 
-func (cl *NewDaoClient) GetNewByBase1Base2(base2 Base2) ([]sample.New, error) {
+func (cl *NewDaoClient) GetNewByBase1Base2(base2 sample.Base2) ([]sample.New, error) {
 	return cl.Get(bson.M{"base_1.base_2": base2})
 }
-func (cl *NewDaoClient) UpdateOrInsertNewBase1Name(id string, name string) error {
+func (cl *NewDaoClient) UpdateOrInsertNewBase1Base2Name(id string, name string) error {
 	return cl.UpdateAttribute(id, bson.M{"base_1.base_2.name": name})
 }
 
-func (cl *NewDaoClient) DeleteNewBase1Name(id string) error {
+func (cl *NewDaoClient) DeleteNewBase1Base2Name(id string) error {
 	return cl.DeleteAttributes(id, bson.M{"base_1.base_2.name": 1})
 }
 
-func (cl *NewDaoClient) GetNewBase1Name(id string) (val string, err error) {
+func (cl *NewDaoClient) GetNewBase1Base2Name(id string) (val string, err error) {
 	new, err := cl.GetAttribute(id, bson.D{{"base_1.base_2.name", 1}})
 	if err != nil {
 		return val, err
@@ -64,6 +64,6 @@ func (cl *NewDaoClient) GetNewBase1Name(id string) (val string, err error) {
 	return new.Base1.Base2.Name, err
 }
 
-func (cl *NewDaoClient) GetNewByBase1Name(name string) ([]sample.New, error) {
+func (cl *NewDaoClient) GetNewByBase1Base2Name(name string) ([]sample.New, error) {
 	return cl.Get(bson.M{"base_1.base_2.name": name})
 }
