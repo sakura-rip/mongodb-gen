@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -25,10 +26,51 @@ func main() {
 	if !fInfo.IsDir() {
 		log.Fatal("error: ", targetDirName, "is not directory")
 	}
+	fmt.Println(targetDirName)
 	genTargetDir = targetDirName + "_dao"
 
-	cols := getAllCollections()
-	fmt.Printf("%#v", cols)
+	cols := getAllCollections(targetDirName)
+
+	err = generateClientFile(cols)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, col := range cols {
+		err := generateCollectionBaseFile(col)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	err = generateQueryFile()
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, col := range cols {
+		for fName, field := range col.Fields {
+			if fName == col.IdFieldName {
+				continue
+			}
+			var err error
+			switch {
+			//array
+			case strings.HasPrefix(field.FieldType, "[]"):
+				err = generateFieldArrayTypeFile(field)
+			//map
+			case strings.HasPrefix(field.FieldType, "map["):
+				err = generateFieldMapTypeFile(field)
+			//default(int, str...etc
+			case isKnownType(field.FieldType):
+				err = generateFieldKnownTypeFile(field)
+			//struct
+			default:
+				err = generateFieldStructTypeFile(field)
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+	}
 }
 
 func getVersion() string {
