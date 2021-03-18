@@ -156,3 +156,16 @@ func getMapValueType(field CollectionField) string {
 func sprints(base string, val ...interface{}) string {
 	return fmt.Sprintf(base+strings.Repeat(".%s", len(val)), val...)
 }
+
+func isStructFieldValue(field string) bool {
+	switch {
+	case isKnownType(field):
+		return false
+	case strings.HasPrefix(field, "["):
+		return false
+	case strings.HasPrefix(field, "map["):
+		return false
+	default:
+		return true
+	}
+}
