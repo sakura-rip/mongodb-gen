@@ -1,4 +1,4 @@
-module github.com/sakura-rip/mongodbgen
+module github.com/sakura-rip/mongodb-gen
 
 go 1.16
 
