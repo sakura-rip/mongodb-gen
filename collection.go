@@ -35,14 +35,14 @@ type CollectionField struct {
 	//`bson:"BsonName"`
 	BsonName string
 
-	StructFields []StructFields
+	StructFields []StructField
 }
 
 func NewCollectionField() CollectionField {
 	return CollectionField{}
 }
 
-type StructFields struct {
+type StructField struct {
 	Name         string
 	BsonName     string
 	LocationBson string //bson.bson.bson
