@@ -146,6 +146,9 @@ func getStructFieldHaveID(obj *ast.Object) *ast.Field {
 	var fields []*ast.Field
 	for _, field := range objStruct.Fields.List {
 		//fieldName := field.Names[0].Name
+		if field.Tag == nil {
+			log.Fatal("all struct field must have bson tag")
+		}
 		tags, err := structtag.Parse(strings.Trim(field.Tag.Value, "`"))
 		if err != nil {
 			log.Fatal("error occurred during parsing field tag:", err)
