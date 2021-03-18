@@ -32,6 +32,21 @@ func NewGroupDaoClient() *GroupDaoClient {
 	return cl
 }
 
+type NewDaoClient struct {
+	session *mongo.Client
+	ctx     context.Context
+	Col     *mongo.Collection
+}
+
+func NewNewDaoClient() *NewDaoClient {
+	cl := &NewDaoClient{
+		session: connectToMongoDB(),
+		ctx:     context.Background(),
+	}
+	cl.Col = cl.session.Database(DB_NAME).Collection("New")
+	return cl
+}
+
 type UserDaoClient struct {
 	session *mongo.Client
 	ctx     context.Context
