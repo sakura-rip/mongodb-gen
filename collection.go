@@ -45,7 +45,7 @@ func NewCollectionField() CollectionField {
 type StructFields struct {
 	Name         string
 	LocationBson string //bson.bson.bson
-	LocationX    string //.Name.Name
+	Location     string //.Name.Name
 	FieldType    string
 	LowerName    string
 }
