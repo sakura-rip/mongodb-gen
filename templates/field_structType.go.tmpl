@@ -29,24 +29,25 @@ func (cl *[[.Root.Name]]DaoClient) Get[[.Root.Name]]By[[.FieldName]](profile [[.
 	return cl.Get(bson.M{"[[.BsonName]]": profile})
 }
 
+[[ $save := . ]]
 [[- range $i, $v := .StructFields]]
-func (cl *[[.Root.Name]]DaoClient) UpdateOrInsert[[.Root.Name]][[.FieldName]][[$v.Name]](id [[.Root.IdFieldType]], [[$v.$v.LowerName]] [[$v.FieldType]]) error {
-	return cl.UpdateAttribute(id, bson.M{"[[$v.LocationBson]]": [[$v.$v.LowerName]]})
+func (cl *[[$save.Root.Name]]DaoClient) UpdateOrInsert[[$save.Root.Name]][[$save.FieldName]][[$v.Name]](id [[$save.Root.IdFieldType]], [[$v.LowerName]] [[$v.FieldType]]) error {
+	return cl.UpdateAttribute(id, bson.M{"[[$v.LocationBson]]": [[$v.LowerName]]})
 }
 
-func (cl *[[.Root.Name]]DaoClient) Delete[[.Root.Name]][[.FieldName]][[$v.Name]](id [[.Root.IdFieldType]]) error {
+func (cl *[[$save.Root.Name]]DaoClient) Delete[[$save.Root.Name]][[$save.FieldName]][[$v.Name]](id [[$save.Root.IdFieldType]]) error {
 	return cl.DeleteAttributes(id, bson.M{"[[$v.LocationBson]]": 1})
 }
 
-func (cl *[[.Root.Name]]DaoClient) Get[[.Root.Name]][[.FieldName]][[$v.Name]](id [[.Root.IdFieldType]]) ([[$v.FieldType]], error) {
-	[[.Root.LowerName]], err := cl.GetAttribute(id, bson.D{{"[[$v.LocationBson]]", 1}})
+func (cl *[[$save.Root.Name]]DaoClient) Get[[$save.Root.Name]][[$save.FieldName]][[$v.Name]](id [[$save.Root.IdFieldType]]) (val [[$v.FieldType]], err error) {
+	[[$save.Root.LowerName]], err := cl.GetAttribute(id, bson.D{{"[[$v.LocationBson]]", 1}})
 	if err != nil {
-		return "", err
+		return val, err
 	}
-	return [[.Root.LowerName]].[[$v.Location]], err
+	return [[$save.Root.LowerName]].[[$v.Location]], err
 }
 
-func (cl *[[.Root.Name]]DaoClient) Get[[.Root.Name]]By[[.FieldName]][[$v.Name]]([[$v.LowerName]] [[$v.FieldType]]) ([][[.Root.PackageName]].[[.Root.Name]], error) {
+func (cl *[[$save.Root.Name]]DaoClient) Get[[$save.Root.Name]]By[[$save.FieldName]][[$v.Name]]([[$v.LowerName]] [[$v.FieldType]]) ([][[$save.Root.PackageName]].[[$save.Root.Name]], error) {
 	return cl.Get(bson.M{"[[$v.LocationBson]]": [[$v.LowerName]]})
 }
 [[- end]]
