@@ -22,7 +22,10 @@ func main() {
 	if err != nil {
 		log.Fatal("error occurred during parsing directory: ", err)
 	}
-	fInfo, _ := os.Stat(targetDirName)
+	fInfo, err := os.Stat(targetDirName)
+	if err != nil {
+		log.Fatal("error occurred during check path: ", err)
+	}
 	if !fInfo.IsDir() {
 		log.Fatal("error: ", targetDirName, "is not directory")
 	}
