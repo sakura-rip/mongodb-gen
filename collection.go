@@ -44,6 +44,7 @@ func NewCollectionField() CollectionField {
 
 type StructFields struct {
 	Name         string
+	BsonName     string
 	LocationBson string //bson.bson.bson
 	Location     string //.Name.Name
 	FieldType    string
