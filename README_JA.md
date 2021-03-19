@@ -75,7 +75,7 @@ func main() {
 		log.Fatal("failed to insert user")
 	}
 	user, err := userCl.GetUserByProfileName("sakura")
-	if err != nil {
+	if err == nil {
 		fmt.Printf("%#v\n", user)
 	}
 }
